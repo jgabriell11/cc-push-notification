@@ -145,12 +145,13 @@
     /* ─── HERO TITLE ────────────────────────────────────── */
     .hero-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(3.2rem, 9vw, 6rem);
+      font-size: clamp(2.4rem, 8vw, 6rem);
       font-weight: 700;
-      line-height: 1.03;
-      letter-spacing: -0.045em;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
       color: var(--white-blue);
       margin-bottom: 22px;
+      overflow-wrap: break-word;
     }
 
     .hero-title em {
@@ -204,6 +205,19 @@
       font-size: 14px;
       color: var(--blue-pale);
       line-height: 1.55;
+    }
+
+    .tldr-list li > span {
+      flex: 1;
+      min-width: 0;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+
+    .tldr-list code {
+      overflow-wrap: break-word;
+      word-break: break-all;
+      white-space: normal;
     }
 
     .tldr-list li::before {
@@ -608,10 +622,10 @@
       <div class="tldr">
         <div class="tldr-label">tl;dr</div>
         <ol class="tldr-list">
-          <li>Ative <code>agentPushNotifEnabled</code> em <code>~/.claude/settings.json</code></li>
-          <li>Adicione um hook <code>Notification</code> com curl para o ntfy.sh</li>
-          <li>Instale o app ntfy no celular e assine o topic</li>
-          <li>Pronto. Push dispara sempre que o Claude espera por você</li>
+          <li><span>Ative <code>agentPushNotifEnabled</code> em <code>~/.claude/settings.json</code></span></li>
+          <li><span>Adicione um hook <code>Notification</code> com curl para o ntfy.sh</span></li>
+          <li><span>Instale o app ntfy no celular e assine o topic</span></li>
+          <li><span>Pronto. Push dispara sempre que o Claude espera por você</span></li>
         </ol>
       </div>
 

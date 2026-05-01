@@ -1,0 +1,230 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e6]: Rise
+        - generic [ref=e7]:
+          - generic [ref=e8]: Rise
+          - generic [ref=e9]: "@risemediabuyer"
+      - generic [ref=e10]:
+        - generic [ref=e11]: claude-code push
+        - generic [ref=e12]: v1
+        - generic [ref=e13]: "2026"
+        - generic [ref=e14]: 5min
+        - generic [ref=e15]: quick start · 01
+      - heading "push. _noti_fications." [level=1] [ref=e16]:
+        - text: push.
+        - emphasis [ref=e17]: _noti_
+        - text: fications.
+      - paragraph [ref=e18]: Quando o Claude Code precisa do seu input, permissão ou decisão, o terminal não precisa gritar. Este guia ativa notificações nativas e push para o seu celular em 5 minutos.
+      - generic [ref=e19]:
+        - generic [ref=e20]: tl;dr
+        - list [ref=e21]:
+          - listitem [ref=e22]:
+            - generic [ref=e23]:
+              - text: Ative
+              - code [ref=e24]: agentPushNotifEnabled
+              - text: em
+              - code [ref=e25]: ~/.claude/settings.json
+          - listitem [ref=e26]:
+            - generic [ref=e27]:
+              - text: Adicione um hook
+              - code [ref=e28]: Notification
+              - text: com curl para o ntfy.sh
+          - listitem [ref=e29]:
+            - generic [ref=e30]: Instale o app ntfy no celular e assine o topic
+          - listitem [ref=e31]:
+            - generic [ref=e32]: Pronto. Push dispara sempre que o Claude espera por você
+  - main [ref=e33]:
+    - region "Ativar notificação nativa" [ref=e34]:
+      - generic [ref=e35]:
+        - generic [ref=e36]: "01"
+        - generic [ref=e37]:
+          - generic [ref=e38]: native · settings.json
+          - heading "Ativar notificação nativa" [level=2] [ref=e39]
+      - paragraph [ref=e40]: O Claude Code tem uma flag interna que dispara notificações de sistema (macOS Notifications, Linux D-Bus, Windows Toast) quando o agente aguarda input.
+      - generic [ref=e41]:
+        - generic [ref=e42]: ~/.claude/settings.json
+        - generic [ref=e43]: "{ \"agentPushNotifEnabled\": true }"
+      - paragraph [ref=e44]:
+        - text: Não confunde com
+        - code [ref=e45]: "--notification"
+        - text: via flag de CLI. A chave certa é
+        - code [ref=e46]: agentPushNotifEnabled
+        - text: ". Funciona em qualquer terminal: iTerm, Warp, Ghostty, Terminal.app."
+    - region "Push pro celular com ntfy.sh" [ref=e47]:
+      - generic [ref=e48]:
+        - generic [ref=e49]: "02"
+        - generic [ref=e50]:
+          - generic [ref=e51]: remote · ntfy.sh
+          - heading "Push pro celular com ntfy.sh" [level=2] [ref=e52]
+      - paragraph [ref=e53]: Notificações de sistema só funcionam no computador. Para alertas no celular enquanto você está longe, use o ntfy.sh — pub-sub HTTP, zero setup, sem cadastro.
+      - paragraph [ref=e54]:
+        - text: "Escolha um topic aleatório (ex:"
+        - code [ref=e55]: claude-soier-x9k2
+        - text: ). Adicione o hook
+        - code [ref=e56]: Notification
+        - text: "ao settings.json:"
+      - generic [ref=e57]:
+        - generic [ref=e58]: ~/.claude/settings.json
+        - generic [ref=e59]: "{ \"agentPushNotifEnabled\": true, \"hooks\": { \"Notification\": [ { \"type\": \"command\", \"command\": \"curl -s -d 'Claude Code precisa de você' https://ntfy.sh/claude-soier-x9k2\", \"timeout\": 5000 } ] } }"
+      - paragraph [ref=e60]:
+        - text: Baixe o app
+        - strong [ref=e61]: ntfy
+        - text: ":"
+      - generic [ref=e62]:
+        - link "Baixar ntfy na App Store" [ref=e63] [cursor=pointer]:
+          - /url: https://apps.apple.com/app/ntfy/id1625396347
+          - img [ref=e64]
+          - text: iOS · App Store
+        - link "Baixar ntfy no Google Play" [ref=e66] [cursor=pointer]:
+          - /url: https://play.google.com/store/apps/details?id=io.heckel.ntfy
+          - img [ref=e67]
+          - text: Android · Play Store
+      - paragraph [ref=e69]: Assine o mesmo topic para receber push de verdade no celular.
+      - generic [ref=e70]:
+        - strong [ref=e71]: "Segurança:"
+        - text: Tópico = senha. Quem descobrir o nome pode te mandar pushes. Use strings longas e aleatórias.
+    - 'region "Alternativa premium: Pushover" [ref=e72]':
+      - generic [ref=e73]:
+        - generic [ref=e74]: "03"
+        - generic [ref=e75]:
+          - generic [ref=e76]: remote · pushover
+          - 'heading "Alternativa premium: Pushover" [level=2] [ref=e77]'
+      - paragraph [ref=e78]: Para entrega garantida, alta prioridade, retry automático e sons customizados, use Pushover (pagamento único de $5 por plataforma).
+      - generic [ref=e79]:
+        - generic [ref=e80]: ~/.claude/settings.json
+        - generic [ref=e81]: "{ \"hooks\": { \"Notification\": [ { \"type\": \"command\", \"command\": \"curl -s -X POST https://api.pushover.net/1/messages.json -d 'token=APP_TOKEN&user=USER_KEY&message=Claude Code precisa de você&priority=1'\", \"timeout\": 5000 } ] } }"
+      - paragraph [ref=e82]:
+        - text: Substitua
+        - code [ref=e83]: APP_TOKEN
+        - text: e
+        - code [ref=e84]: USER_KEY
+        - text: com suas credenciais do dashboard do Pushover. Priority
+        - code [ref=e85]: "1"
+        - text: dispara som mesmo no modo silencioso.
+    - region "Notificação macOS rica (sem servidor)" [ref=e86]:
+      - generic [ref=e87]:
+        - generic [ref=e88]: "04"
+        - generic [ref=e89]:
+          - generic [ref=e90]: macos · osascript
+          - heading "Notificação macOS rica (sem servidor)" [level=2] [ref=e91]
+      - paragraph [ref=e92]: "Para Mac: banners customizados, som e ícone — sem dependência de serviço externo."
+      - generic [ref=e93]:
+        - generic [ref=e94]: ~/.claude/settings.json
+        - generic [ref=e95]: "{ \"hooks\": { \"Notification\": [ { \"type\": \"command\", \"command\": \"osascript -e 'display notification \\\"Aguardando input\\\" with title \\\"Claude Code\\\" sound name \\\"Glass\\\"'\" } ] } }"
+      - paragraph [ref=e96]: "Sons disponíveis:"
+      - generic [ref=e97]:
+        - generic [ref=e98]: Glass
+        - generic [ref=e99]: Ping
+        - generic [ref=e100]: Pop
+        - generic [ref=e101]: Hero
+        - generic [ref=e102]: Submarine
+      - paragraph [ref=e103]:
+        - text: "Lista completa:"
+        - code [ref=e104]: /System/Library/Sounds/
+    - region "Quando o hook dispara" [ref=e105]:
+      - generic [ref=e106]:
+        - generic [ref=e107]: "05"
+        - generic [ref=e108]:
+          - generic [ref=e109]: triggers · when it fires
+          - heading "Quando o hook dispara" [level=2] [ref=e110]
+      - paragraph [ref=e111]:
+        - text: O evento
+        - code [ref=e112]: Notification
+        - text: roda em situações específicas — não a cada token gerado.
+      - table [ref=e114]:
+        - rowgroup [ref=e115]:
+          - row "Trigger Quando" [ref=e116]:
+            - columnheader "Trigger" [ref=e117]
+            - columnheader "Quando" [ref=e118]
+        - rowgroup [ref=e119]:
+          - row "waiting-for-input Claude concluiu o turno e aguarda sua resposta" [ref=e120]:
+            - cell "waiting-for-input" [ref=e121]
+            - cell "Claude concluiu o turno e aguarda sua resposta" [ref=e122]
+          - row "permission-required Tool call bloqueada aguardando aprovação" [ref=e123]:
+            - cell "permission-required" [ref=e124]
+            - cell "Tool call bloqueada aguardando aprovação" [ref=e125]
+          - row "agent-idle Sub-agente ocioso aguardando comando" [ref=e126]:
+            - cell "agent-idle" [ref=e127]
+            - cell "Sub-agente ocioso aguardando comando" [ref=e128]
+          - row "task-complete Custom — você dispara via hook Stop" [ref=e129]:
+            - cell "task-complete" [ref=e130]
+            - cell "Custom — você dispara via hook Stop" [ref=e131]:
+              - text: Custom — você dispara via hook
+              - code [ref=e132]: Stop
+      - paragraph [ref=e133]:
+        - text: Para notificações no fim de tarefas longas (não só quando aguarda input), adicione um hook
+        - code [ref=e134]: Stop
+        - text: com o mesmo comando curl.
+    - region "Não está tocando?" [ref=e135]:
+      - generic [ref=e136]:
+        - generic [ref=e137]: "06"
+        - generic [ref=e138]:
+          - generic [ref=e139]: debug · troubleshooting
+          - heading "Não está tocando?" [level=2] [ref=e140]
+      - table [ref=e142]:
+        - rowgroup [ref=e143]:
+          - row "Sintoma Fix" [ref=e144]:
+            - columnheader "Sintoma" [ref=e145]
+            - columnheader "Fix" [ref=e146]
+        - rowgroup [ref=e147]:
+          - row "Hook não dispara Execute /hooks no Claude Code para listar hooks registrados. Se não aparecer, o JSON está malformado" [ref=e148]:
+            - cell "Hook não dispara" [ref=e149]
+            - cell "Execute /hooks no Claude Code para listar hooks registrados. Se não aparecer, o JSON está malformado" [ref=e150]:
+              - text: Execute
+              - code [ref=e151]: /hooks
+              - text: no Claude Code para listar hooks registrados. Se não aparecer, o JSON está malformado
+          - 'row "Curl trava sessão Sempre defina \"timeout\": 5000. Sem timeout, request presa trava o agente" [ref=e152]':
+            - cell "Curl trava sessão" [ref=e153]
+            - 'cell "Sempre defina \"timeout\": 5000. Sem timeout, request presa trava o agente" [ref=e154]':
+              - text: Sempre defina
+              - code [ref=e155]: "\"timeout\": 5000"
+              - text: . Sem timeout, request presa trava o agente
+          - row "macOS não notifica Ajustes do Sistema → Notificações → Terminal/iTerm/Warp → ative \"Permitir Notificações\"" [ref=e156]:
+            - cell "macOS não notifica" [ref=e157]
+            - cell "Ajustes do Sistema → Notificações → Terminal/iTerm/Warp → ative \"Permitir Notificações\"" [ref=e158]
+          - row "ntfy não chega no celular Confirme que o topic no app é exatamente igual ao do comando curl. Case-sensitive" [ref=e159]:
+            - cell "ntfy não chega no celular" [ref=e160]
+            - cell "Confirme que o topic no app é exatamente igual ao do comando curl. Case-sensitive" [ref=e161]
+          - 'row "Quero testar sem esperar Execute diretamente: curl -d \"test\" https://ntfy.sh/seu-topico" [ref=e162]':
+            - cell "Quero testar sem esperar" [ref=e163]
+            - 'cell "Execute diretamente: curl -d \"test\" https://ntfy.sh/seu-topico" [ref=e164]':
+              - text: "Execute diretamente:"
+              - code [ref=e165]: curl -d "test" https://ntfy.sh/seu-topico
+    - region "Referências" [ref=e166]:
+      - generic [ref=e167]:
+        - generic [ref=e168]: "07"
+        - generic [ref=e169]:
+          - generic [ref=e170]: refs · documentation
+          - heading "Referências" [level=2] [ref=e171]
+      - list [ref=e172]:
+        - listitem [ref=e173]:
+          - generic [ref=e174]: →
+          - link "code.claude.com/docs/en/hooks-guide" [ref=e175] [cursor=pointer]:
+            - /url: https://code.claude.com/docs/en/hooks-guide
+        - listitem [ref=e176]:
+          - generic [ref=e177]: →
+          - link "code.claude.com/docs/en/settings" [ref=e178] [cursor=pointer]:
+            - /url: https://code.claude.com/docs/en/settings
+        - listitem [ref=e179]:
+          - generic [ref=e180]: →
+          - link "ntfy.sh" [ref=e181] [cursor=pointer]:
+            - /url: https://ntfy.sh
+          - generic [ref=e182]: — pub-sub HTTP, open source
+        - listitem [ref=e183]:
+          - generic [ref=e184]: →
+          - link "pushover.net" [ref=e185] [cursor=pointer]:
+            - /url: https://pushover.net
+          - generic [ref=e186]: — push notifications premium
+  - contentinfo [ref=e187]:
+    - generic [ref=e188]:
+      - generic [ref=e190]: Rise
+      - generic [ref=e191]: Rise
+    - generic [ref=e192]:
+      - generic [ref=e193]: rise · push · 01
+      - generic [ref=e194]: ·
+      - generic [ref=e195]: © 2026
+      - generic [ref=e196]: ·
+      - generic [ref=e197]: Rio de Janeiro · BR
+    - generic [ref=e198]: end · transmission
